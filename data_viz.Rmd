@@ -74,8 +74,8 @@ head(annual_pikas)
 ```{r}
 
 ggplot(annual_pikas, aes(x = Station, y = Concentration_pg_g))+
-  geom_col()
-
+  geom_col()+
+  theme_minimal()
 
 ```
 
