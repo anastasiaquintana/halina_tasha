@@ -1,0 +1,81 @@
+---
+title: "data_viz"
+author: "Tasha Quintana"
+date: "2023-04-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Pika data viz sharing
+
+## Read libraries
+
+```{r read libraries, warning=FALSE, message=FALSE}
+
+library(dplyr)
+library(tidyr)
+library(readr)
+library(ggplot2)
+library(ggmap)
+
+```
+
+## Read data
+
+```{r read data}
+
+pikas <- read_csv("data/pika_fecal_glut.aw.data.csv")
+
+```
+
+## Explore data
+
+```{r explore data}
+
+head(pikas)
+colnames(pikas)
+
+```
+
+## Clean data
+
+```{r visualize pikas}
+
+pikas_clean <- pikas %>% 
+  select(Station, Concentration_pg_g, Sex)
+
+colnames(pikas_clean)
+class(pikas_clean)
+
+pikas_clean <- pikas_clean %>% 
+  mutate(Sex = as.factor(Sex))
+
+glimpse(pikas_clean)
+
+```
+
+## Bin and summarize data
+
+```{r}
+
+annual_pikas <- pikas_clean %>% 
+  group_by(Station) %>% 
+  summarize(Concentration_pg_g = sum(Concentration_pg_g))
+
+head(annual_pikas)
+
+```
+
+# Plot pikas
+
+```{r}
+
+ggplot(annual_pikas, aes(x = Station, y = Concentration_pg_g))+
+  geom_col()
+
+
+```
+
